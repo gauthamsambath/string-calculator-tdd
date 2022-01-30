@@ -51,5 +51,16 @@ public class StringCalculatorTest {
         assertEquals(21,stringCalculator.add("1,2,3,4,5,6"));
     }
 
+    /**
+     * Test add method with new line in between.
+     */
+    @Test
+    public void testAddMethodWithNewLineInBetween() {
+        assertEquals(6,stringCalculator.add("1\n2,3"));
+        assertEquals(6,stringCalculator.add("1\n2\n3"));
+        assertEquals(12,stringCalculator.add("1\n2,3\n5\n1"));
+        assertEquals(1,stringCalculator.add("1\n"));
+    }
+
 }
 
