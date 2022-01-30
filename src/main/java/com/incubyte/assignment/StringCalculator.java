@@ -33,7 +33,10 @@ public class StringCalculator {
                 numbers = numbers.substring(delimiterLength);
             }
             String splitter = "[" + delimiter + "]" + "|\\n";
-            List<Integer> listOfIntegersExtracted = Arrays.stream(numbers.split(splitter)).filter(a -> !a.equals("")).map(Integer::parseInt).collect(Collectors.toList());
+            List<Integer> listOfIntegersExtracted = Arrays.stream(numbers.split(splitter)).filter(a -> !a.equals("")).map(a -> {
+                int value = Integer.parseInt(a);
+                return value > 1000 ? 0 : value;
+            }).collect(Collectors.toList());
             List<Integer> negativeList = findNegatives(listOfIntegersExtracted);
             if (negativeList.size() > 0) {
                 throw new NegativeNumberException("Negative numbers not allowed " + negativeList);
