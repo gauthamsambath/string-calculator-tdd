@@ -2,6 +2,7 @@ package com.incubyte.assignment;
 
 import static org.junit.Assert.assertEquals;
 
+import com.incubyte.assignment.exceptions.NegativeNumberException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,7 +27,7 @@ public class StringCalculatorTest {
      * Test add method for empty string.
      */
     @Test
-    public void testAddMethodForEmptyString() {
+    public void testAddMethodForEmptyString() throws NegativeNumberException {
         assertEquals(0,stringCalculator.add(""));
     }
 
@@ -34,7 +35,7 @@ public class StringCalculatorTest {
      * Test add method for single number.
      */
     @Test
-    public void testAddMethodForSingleNumber() {
+    public void testAddMethodForSingleNumber() throws NegativeNumberException {
         assertEquals(1,stringCalculator.add("1"));
         assertEquals(2,stringCalculator.add("2"));
         assertEquals(3,stringCalculator.add("3"));
@@ -45,9 +46,9 @@ public class StringCalculatorTest {
      * Test add method for multiple numbers.
      */
     @Test
-    public void testAddMethodForMultipleNumbers() {
+    public void testAddMethodForMultipleNumbers() throws NegativeNumberException {
         assertEquals(10,stringCalculator.add("1,4,5"));
-        assertEquals(10,stringCalculator.add("11,5,-6"));
+        assertEquals(10,stringCalculator.add("11,5,6"));
         assertEquals(21,stringCalculator.add("1,2,3,4,5,6"));
     }
 
@@ -55,7 +56,7 @@ public class StringCalculatorTest {
      * Test add method with new line in between.
      */
     @Test
-    public void testAddMethodWithNewLineInBetween() {
+    public void testAddMethodWithNewLineInBetween() throws NegativeNumberException {
         assertEquals(6,stringCalculator.add("1\n2,3"));
         assertEquals(6,stringCalculator.add("1\n2\n3"));
         assertEquals(12,stringCalculator.add("1\n2,3\n5\n1"));
@@ -66,12 +67,25 @@ public class StringCalculatorTest {
      * Test add method with custom delimiters.
      */
     @Test
-    public void testAddMethodWithCustomDelimiters(){
+    public void testAddMethodWithCustomDelimiters() throws NegativeNumberException {
         assertEquals(3,stringCalculator.add("//;\n1;2"));
         assertEquals(3,stringCalculator.add("//$\n1$2"));
         assertEquals(3,stringCalculator.add("//*\n1*2"));
         assertEquals(3,stringCalculator.add("//$#*\n1$#*2"));
         assertEquals(6,stringCalculator.add("//$#*\n1$#*2$#*3"));
+    }
+
+    /**
+     * Test add method with negative numbers.
+     */
+    @Test
+    public void testAddMethodWithNegativeNumbers() {
+        try {
+            stringCalculator.add("//$#*\n-1$#*-2$#*-3");
+        } catch (NegativeNumberException e) {
+            assertEquals("Negative numbers not allowed [-1, -2, -3]",e.getMessage());
+            assertEquals(NegativeNumberException.class, e.getClass());
+        }
     }
 
 }
